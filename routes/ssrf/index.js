@@ -4,7 +4,7 @@ const {
   sinks: { ssrf }
 } = require('@contrast/test-bench-utils');
 
-const EXAMPLE_URL = 'www.example.com';
+const EXAMPLE_URL = 'http://www.example.com';
 
 exports.name = 'hapitestbench.ssrf';
 
@@ -29,20 +29,20 @@ exports.register = function ssrf(server, options) {
   libs.forEach((lib) => {
     server.route([
       {
-        path: `/${lib}/query/unsafe`,
+        path: `/${lib}/query`,
         method: 'GET',
         handler: async (request, h) => {
-          const url = createUnsafeUrl(request.query.input);
+          const url = `${EXAMPLE_URL}?q=${request.query.input}`;
           const data = await makeRequest(lib, url);
 
           return data;
         }
       },
       {
-        path: `/${lib}/body/unsafe`,
-        method: 'POST',
+        path: `/${lib}/path`,
+        method: 'GET',
         handler: async (request, h) => {
-          const url = createUnsafeUrl(request.payload.input);
+          const url = `http://${request.query.input}`;
           const data = await makeRequest(lib, url);
 
           return data;
@@ -51,12 +51,6 @@ exports.register = function ssrf(server, options) {
     ]);
   });
 };
-
-const createUnsafeUrl = (input, ssl) =>
-  `${ssl ? 'https' : 'http'}://${EXAMPLE_URL}?q=${input}`;
-
-const createSafeUrl = (input, ssl) =>
-  `${ssl ? 'https' : 'http'}://${EXAMPLE_URL}?q=${encodeURIComponent(input)}`;
 
 const makeRequest = async function makeRequest(lib, url) {
   switch (lib) {
