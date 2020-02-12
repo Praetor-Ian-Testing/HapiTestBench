@@ -35,11 +35,11 @@
   "dependencies": {
     "@contrast/test-bench-content": "^2.5.0",
     "@contrast/test-bench-utils": "^2.8.0",
-    "@hapi/glue": "*",
-    "@hapi/hapi": "*",
-    "@hapi/hoek": "*",
-    "@hapi/inert": "*",
-    "@hapi/vision": "*",
+    "@hapi/glue": "^6.2.0",
+    "@hapi/hapi": "^18.4.0",
+    "@hapi/hoek": "^9.0.3",
+    "@hapi/inert": "^5.2.2",
+    "@hapi/vision": "^6.0.0",
     "ejs": "^2.5.7",
     "mongodb": "^3.0.1",
     "pem": "^1.14.2"
